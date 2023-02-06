@@ -11,7 +11,6 @@ body {
 .game-box {
   width: 100%;
   display: flex;
-  justify-content: center;
   align-items: flex-start;
   position: relative;
   margin: 0px auto;
@@ -24,7 +23,7 @@ body {
   flex-direction: column;
 }
 
-.player-turn {
+.player-box {
   width: 110px;
   display: flex;
   justify-content: center;
@@ -33,7 +32,7 @@ body {
   margin: 0px 40px;
 }
 
-.player-turn::before {
+.player-box::before {
   width: 100%;
   background-color: #48c;
   color: #fff;
@@ -49,18 +48,33 @@ body {
   padding: 9px 16px;
 }
 
-.player-name {
+.player-turn {
   width: 100%;
   height: 2rem;
   background-color: #fff;
+  content: attr(player-names);
   font-size: 1.15rem;
   text-align: center;
   line-height: 1.9rem;
   white-space: nowrap;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
+  margin: 0px;
   padding: 6px 16px;
+}
+
+.player-dote {
+  width: 10px;
+  height: 10px;
+  background-color: rgb(4, 233, 4);
+  display: block;
+  border: 0px;
+  border-radius: 100%;
+  box-shadow: 0px 0px 7px 3px rgba(4, 233, 4, 0.925);
+  margin: 0px 8px 0px 0px;
 }
 
 .dice {
@@ -77,8 +91,8 @@ body {
 .dice::before {
   width: 100%;
   height: 100%;
-  content: "Roll the Dice";
-  font-size: 0.95rem;
+  content: attr(dice-content);
+  font-size: "0.95rem";
   text-align: center;
   display: flex;
   justify-content: center;
@@ -86,8 +100,16 @@ body {
   cursor: pointer;
 }
 
-/* .board {
-  width: 70%;
+.dice-image {
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 3px;
+  margin: 0px;
+  cursor: pointer;
+}
+
+.board {
   position: relative;
   margin: auto;
   padding: 0px;
@@ -104,21 +126,11 @@ body {
   position: absolute;
   border-radius: 10px;
   transform: rotate(10deg);
-} */
-
-/* .dice-image {
-  width: 10%;
-  position: absolute;
-  top: 25%;
-  right: 0px;
-  border: none;
-  margin: 0px;
-  cursor: pointer;
-} */
+}
 
 .alert-modal {
   width: 400px;
-  display: none;
+  visibility: hidden;
   position: absolute;
   top: 50%;
   left: 50%;
