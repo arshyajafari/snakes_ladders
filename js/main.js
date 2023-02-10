@@ -3,16 +3,13 @@ $(function () {
   let playerTurn = 0,
     position = 0,
     hasWon = false,
-    row = [],
+    rows = [],
     tiles = [];
-
-  let cols = 10;
-  let rows = 10;
 
   // static data
   const players = [
-      { name: "Player 1", position: 0, color: "rgb(255, 193, 21)" },
-      { name: "Player 2", position: 0, color: "rgb(158, 72, 45)" },
+      { name: "", position: 0, color: "rgb(255, 193, 21)" },
+      { name: "", position: 0, color: "rgb(158, 72, 45)" },
     ],
     ladders = [
       { start: 2, end: 38 },
@@ -40,13 +37,30 @@ $(function () {
       { start: 99, end: 80 },
     ];
 
-  // let image = document.querySelector(".board-image");
-  // let width = image.width / rows;
-  // let height = image.height / cols;
+  $("#submit").click((e) => {
+    e.preventDefault();
 
-  // for (let j = 0; j < cols; j++) {
-  //   row.push(tiles);
-  //   for (let i = 0; i < rows; i++) {
+    let playerOne = $("#playerOne").val().trim().replace(/\s/g, "");
+    let playerTwo = $("#playerTwo").val().trim().replace(/\s/g, "");
+
+    if (!playerOne || !playerTwo) return;
+
+    $(".prompt-modal").css("visibility", "hidden");
+
+    players[0].name = playerOne;
+    players[1].name = playerTwo;
+
+    $("#playerOne").val("");
+    $("#playerTwo").val("");
+  });
+
+  // const image = $(".board-image");
+  // let width = image[0].width / 10,
+  //   height = image[0].height / 10;
+
+  // for (let j = 0; j < 10; j++) {
+  //   rows.push(tiles);
+  //   for (let i = 0; i < 10; i++) {
   //     let x = i * width;
   //     let y = j * height;
 
@@ -56,29 +70,35 @@ $(function () {
   // }
 
   // $.fn.drawBoard = function () {
-  //   let piece = ``;
-  //   players.forEach((player) => {
-  //     row.forEach((tiles) => {
-  //       tiles.forEach((tile) => {
+  //   players.map((player) => {
+  //     rows.map((tiles) => {
+  //       tiles.map((tile) => {
   //         if (tile.position === player.position) {
-  //           if (tile.j % 2 == 0) {
-  //             piece += `<div class="piece" style="background-color: ${
-  //               player.color
-  //             }; bottom: ${tile.y + 15}px; left: ${tile.x + 10}px"}></div>`;
+  //           if (tile.j % 2 === 0) {
+  //             if (playerTurn === 0) {
+  //               $(".player-one-piece-high").css("bottom", `${tile.y + 12}px`);
+  //               $(".player-one-piece-high").css("left", `${tile.x + 8}px`);
+  //             } else {
+  //               $(".player-two-piece-high").css("bottom", `${tile.y + 12}px`);
+  //               $(".player-two-piece-high").css("left", `${tile.x + 8}px`);
+  //             }
   //           } else {
-  //             piece += `<div class="piece" style="background-color: ${
-  //               player.color
-  //             }; bottom: ${tile.y + 15}px; right: ${tile.x + 10}px"}></div>`;
+  //             if (playerTurn === 0) {
+  //               $(".player-one-piece-high").css("bottom", `${tile.y + 12}px`);
+  //               $(".player-one-piece-high").css("right", `${tile.x + 8}px`);
+  //             } else {
+  //               $(".player-two-piece-high").css("bottom", `${tile.y + 12}px`);
+  //               $(".player-two-piece-high").css("right", `${tile.x + 8}px`);
+  //             }
   //           }
   //         }
   //       });
   //     });
   //   });
-  //   document.querySelector(".pieces").innerHTML = piece;
   // };
 
   $(".dice").attr("dice-content", "Roll the Dice");
-  $(".dice").click(function () {
+  $(".dice").click(() => {
     if (hasWon) return;
 
     let currentPlayer = players[playerTurn];
@@ -128,14 +148,14 @@ $(function () {
     if (playerTurn >= players.length) playerTurn = 0;
 
     if (playerTurn === 0) {
-      $(".player-name").html("Player 1");
+      $(".player-name").html(players[0].name);
       $(".player-dote").css("background-color", "rgb(4, 233, 4)");
       $(".player-dote").css(
         "box-shadow",
         "0px 0px 7px 3px rgba(4, 233, 4, 0.925)"
       );
     } else {
-      $(".player-name").html("Player 2");
+      $(".player-name").html(players[1].name);
       $(".player-dote").css("background-color", "rgb(255, 79, 35)");
       $(".player-dote").css(
         "box-shadow",
@@ -143,6 +163,6 @@ $(function () {
       );
     }
 
-    // $(".game-box").drawBoard();
+    $(".game-box").drawBoard();
   });
 });
