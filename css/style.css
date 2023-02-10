@@ -16,6 +16,8 @@ body {
   margin: 0px auto;
 }
 
+/* result box and player turn */
+
 .result-box {
   display: flex;
   justify-content: center;
@@ -77,6 +79,8 @@ body {
   margin: 0px 8px 0px 0px;
 }
 
+/* dice style */
+
 .dice {
   width: 50px;
   height: 50px;
@@ -109,24 +113,124 @@ body {
   cursor: pointer;
 }
 
-.board {
+/* board game */
+
+.board-box {
+  width: 100%;
   position: relative;
-  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px auto;
+  padding: 0px;
+}
+
+.board-table {
+  width: 614px;
+  height: 614px;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  border-collapse: collapse;
+}
+
+.board-table td {
+  width: 55px;
+  height: 55px;
+  border: 2px solid transparent;
   padding: 0px;
 }
 
 .board-image {
-  width: 100%;
+  width: 614px;
+  height: 614px;
+  position: absolute;
   margin: 0px auto;
 }
 
-.piece {
-  width: 7%;
-  height: 7%;
+/* player pieces */
+
+.player-one-piece-high {
+  width: 45px;
+  height: 45px;
+  background-color: rgb(255, 193, 21);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
+  /* bottom: 12px;
+  left: -60px; */
+  border: 2px solid rgb(180, 117, 28);
   border-radius: 10px;
   transform: rotate(10deg);
+  margin: 0px auto;
+  padding: 0px;
+  z-index: 1;
 }
+
+.player-one-piece-mid {
+  width: 35px;
+  height: 35px;
+  background-color: rgb(255, 193, 21);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid rgb(180, 117, 28);
+  border-radius: 8px;
+  margin: 0px auto;
+  padding: 0px;
+}
+
+.player-one-piece-low {
+  width: 20px;
+  height: 20px;
+  background-color: rgb(255, 193, 21);
+  border: 2px solid rgb(180, 117, 28);
+  border-radius: 3px;
+  margin: 0px auto;
+  padding: 0px;
+}
+
+.player-two-piece-high {
+  width: 45px;
+  height: 45px;
+  background-color: rgb(158, 72, 45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  /* bottom: 12px;
+  left: -60px; */
+  border: 2px solid rgb(82, 47, 36);
+  border-radius: 10px;
+  transform: rotate(-20deg);
+  margin: 0px auto;
+  padding: 0px;
+}
+
+.player-two-piece-mid {
+  width: 35px;
+  height: 35px;
+  background-color: rgb(158, 72, 45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid rgb(82, 47, 36);
+  border-radius: 8px;
+  margin: 0px auto;
+  padding: 0px;
+}
+
+.player-two-piece-low {
+  width: 20px;
+  height: 20px;
+  background-color: rgb(158, 72, 45);
+  border: 2px solid rgb(82, 47, 36);
+  border-radius: 3px;
+  margin: 0px auto;
+  padding: 0px;
+}
+
+/* alert modal */
 
 .alert-modal {
   width: 400px;
@@ -165,4 +269,82 @@ body {
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
   padding: 15px 20px;
+}
+
+/* player name */
+.prompt-modal {
+  width: 400px;
+  visibility: visible;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.prompt-modal::before {
+  width: 100%;
+  background-color: #48c;
+  color: #fff;
+  content: "What's your name?";
+  font-size: 1.75rem;
+  font-weight: bold;
+  text-align: left;
+  text-transform: uppercase;
+  line-height: 0.7rem;
+  display: block;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  padding: 15px 20px;
+}
+
+.player-form {
+  width: 100%;
+  height: 10rem;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  padding: 15px 20px;
+}
+
+.label-input {
+  width: 100%;
+  font-size: 1.3rem;
+  text-align: left;
+  white-space: nowrap;
+  display: block;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.user-name {
+  width: 60%;
+  border: 0px solid transparent;
+  border-radius: 3px;
+  margin: 0px 0px 8px 0px;
+  padding: 6px 10px;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.4);
+}
+
+.user-name:active,
+.user-name:focus {
+  border: 0px solid transparent;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4),
+    inset 0px 0px 2px rgba(0, 0, 0, 0.4);
+  outline: none;
+}
+
+#submit {
+  background-color: rgb(131, 207, 9);
+  font-family: "Dosis";
+  font-size: 0.95rem;
+  border: 0px;
+  border-radius: 4px;
+  margin: 5px 0px 0px;
+  padding: 3px 15px;
+  box-shadow: 0px 0px 3px rgba(131, 207, 9, 0.8);
+  cursor: pointer;
 }
