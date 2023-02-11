@@ -37,6 +37,16 @@ $(function () {
       { start: 99, end: 80 },
     ];
 
+  $(".alert-modal").css("visibility", "visible");
+  $(".alert-message").html(
+    "Welcome to snakes and ladders game, please enter your name first."
+  );
+  $(".prompt-modal").css("visibility", "hidden");
+  setTimeout(() => {
+    $(".alert-modal").css("visibility", "hidden");
+    $(".prompt-modal").css("visibility", "visible");
+  }, 5000);
+
   $("#submit").click((e) => {
     e.preventDefault();
 
@@ -52,6 +62,9 @@ $(function () {
 
     $("#playerOne").val("");
     $("#playerTwo").val("");
+
+    $(".player-name").html(players[0].name);
+    $(".player-dote").css("display", "block");
   });
 
   // const image = $(".board-image");
@@ -105,8 +118,8 @@ $(function () {
 
     let rollDice = Math.floor(Math.random() * 6) + 1;
 
-    $(this).attr("dice-content", rollDice);
-    $(this).css("font-size", "1.25rem");
+    $(".dice").attr("dice-content", rollDice);
+    $(".dice").css("font-size", "1.25rem");
 
     currentPlayer.position += rollDice;
 
@@ -163,6 +176,6 @@ $(function () {
       );
     }
 
-    $(".game-box").drawBoard();
+    // $(".game-box").drawBoard();
   });
 });
