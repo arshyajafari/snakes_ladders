@@ -1,17 +1,16 @@
 $(function () {
   // dynamic data
   let playerTurn = 0,
-    position = 0,
-    hasWon = false,
-    rows = [],
-    tiles = [];
+    hasWon = false;
 
   // static data
   const players = [
-      { name: "", position: 0, color: "rgb(255, 193, 21)" },
-      { name: "", position: 0, color: "rgb(158, 72, 45)" },
-    ],
-    ladders = [
+    { name: "", position: 0, color: "rgb(255, 193, 21)" },
+    { name: "", position: 0, color: "rgb(158, 72, 45)" },
+  ];
+
+  // game rules
+  const ladders = [
       { start: 2, end: 38 },
       { start: 7, end: 14 },
       { start: 8, end: 31 },
@@ -37,6 +36,7 @@ $(function () {
       { start: 99, end: 80 },
     ];
 
+  // welcome message and get players name
   $(".alert-modal").css("visibility", "visible");
   $(".alert-message").html(
     "Welcome to snakes and ladders game, please enter your name first."
@@ -47,11 +47,12 @@ $(function () {
     $(".prompt-modal").css("visibility", "visible");
   }, 5000);
 
+  // get players name method
   $("#submit").click((e) => {
     e.preventDefault();
 
-    let playerOne = $("#playerOne").val().trim().replace(/\s/g, "");
-    let playerTwo = $("#playerTwo").val().trim().replace(/\s/g, "");
+    let playerOne = $("#playerOne").val().trim();
+    let playerTwo = $("#playerTwo").val().trim();
 
     if (!playerOne || !playerTwo) return;
 
@@ -67,49 +68,40 @@ $(function () {
     $(".player-dote").css("display", "block");
   });
 
-  // const image = $(".board-image");
-  // let width = image[0].width / 10,
-  //   height = image[0].height / 10;
+  // board game method
+  $.fn.boardGame = function (player) {
+    console.log(player.name, player.position);
 
-  // for (let j = 0; j < 10; j++) {
-  //   rows.push(tiles);
-  //   for (let i = 0; i < 10; i++) {
-  //     let x = i * width;
-  //     let y = j * height;
+    const tdTbl = $("td");
+    const playerOnePiece = `
+      <span class="player-one-piece-high">
+        <span class="player-one-piece-mid">
+          <span class="player-one-piece-low"></span>
+        </span>
+      </span>`;
+    const playerTwoPiece = `
+      <span class="player-two-piece-high">
+        <span class="player-two-piece-mid">
+          <span class="player-two-piece-low"></span>
+        </span>
+      </span>`;
 
-  //     tiles.push({ x, y, i, j, position });
-  //     position++;
-  //   }
-  // }
+    for (let i = 0; i < tdTbl.length; i++) {
+      if (playerTurn === 0) {
+        if (+tdTbl[i].getAttribute("data-index") === players[0].position) {
+          $(tdTbl[i]).html("");
+          $(tdTbl[i]).html(playerOnePiece);
+        }
+      } else {
+        if (+tdTbl[i].getAttribute("data-index") === player.position) {
+          $(tdTbl[i]).html("");
+          $(tdTbl[i]).html(playerTwoPiece);
+        }
+      }
+    }
+  };
 
-  // $.fn.drawBoard = function () {
-  //   players.map((player) => {
-  //     rows.map((tiles) => {
-  //       tiles.map((tile) => {
-  //         if (tile.position === player.position) {
-  //           if (tile.j % 2 === 0) {
-  //             if (playerTurn === 0) {
-  //               $(".player-one-piece-high").css("bottom", `${tile.y + 12}px`);
-  //               $(".player-one-piece-high").css("left", `${tile.x + 8}px`);
-  //             } else {
-  //               $(".player-two-piece-high").css("bottom", `${tile.y + 12}px`);
-  //               $(".player-two-piece-high").css("left", `${tile.x + 8}px`);
-  //             }
-  //           } else {
-  //             if (playerTurn === 0) {
-  //               $(".player-one-piece-high").css("bottom", `${tile.y + 12}px`);
-  //               $(".player-one-piece-high").css("right", `${tile.x + 8}px`);
-  //             } else {
-  //               $(".player-two-piece-high").css("bottom", `${tile.y + 12}px`);
-  //               $(".player-two-piece-high").css("right", `${tile.x + 8}px`);
-  //             }
-  //           }
-  //         }
-  //       });
-  //     });
-  //   });
-  // };
-
+  // dice handler
   $(".dice").attr("dice-content", "Roll the Dice");
   $(".dice").click(() => {
     if (hasWon) return;
@@ -118,14 +110,28 @@ $(function () {
 
     let rollDice = Math.floor(Math.random() * 6) + 1;
 
+    if (players[0].name === "" || players[1].name === "") {
+      $(".prompt-modal").css("visibility", "hidden");
+
+      players[0].name = "Player 1";
+      players[1].name = "Player 2";
+
+      $(".player-name").html(players[0].name);
+      $(".player-dote").css("display", "block");
+    }
+
     $(".dice").attr("dice-content", rollDice);
     $(".dice").css("font-size", "1.25rem");
 
     currentPlayer.position += rollDice;
 
+    $(".game-box").boardGame(currentPlayer);
+
     ladders.map((item) => {
       if (item.start === currentPlayer.position) {
         currentPlayer.position = item.end;
+
+        $(".game-box").boardGame(currentPlayer);
 
         $(".alert-modal").css("visibility", "visible");
         $(".alert-message").html("Oh man, you climbed the ladder.");
@@ -138,6 +144,8 @@ $(function () {
     snakes.map((item) => {
       if (item.start === currentPlayer.position) {
         currentPlayer.position = item.end;
+
+        $(".game-box").boardGame(currentPlayer);
 
         $(".alert-modal").css("visibility", "visible");
         $(".alert-message").html("Wow, the snake bit you.");
@@ -175,7 +183,5 @@ $(function () {
         "0px 0px 7px 3px rgba(255, 79, 35, 0.925)"
       );
     }
-
-    // $(".game-box").drawBoard();
   });
 });
