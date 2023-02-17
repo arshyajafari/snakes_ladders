@@ -87,18 +87,6 @@ $(function () {
         </span>
       </span>`;
 
-    // for (let i = tdTbl.length - 1; i > player.position; i--) {
-    //   if ($(".player-one-piece-high")) {
-    //     $(".player-one-piece-high"[i]).html("");
-    //     $(".player-one-piece-mid"[i]).html("");
-    //     $(".player-one-piece-low"[i]).html("");
-    //   } else {
-    //     $(".player-two-piece-high"[i]).html("");
-    //     $(".player-two-piece-mid"[i]).html("");
-    //     $(".player-two-piece-low"[i]).html("");
-    //   }
-    // }
-
     for (let i = tdTbl.length - 1; i >= 0; i--) {
       if (playerTurn === 0) {
         if (+tdTbl[i].getAttribute("data-index") === player.position) {
