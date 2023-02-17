@@ -5,8 +5,8 @@ $(function () {
 
   // static data
   const players = [
-    { name: "", position: 0, color: "rgb(255, 193, 21)" },
-    { name: "", position: 0, color: "rgb(158, 72, 45)" },
+    { name: "", position: 0, pre_position: 0, color: "rgb(255, 193, 21)" },
+    { name: "", position: 0, pre_position: 0, color: "rgb(158, 72, 45)" },
   ];
 
   // game rules
@@ -73,6 +73,7 @@ $(function () {
     console.log(player.name, player.position);
 
     const tdTbl = $("td");
+
     const playerOnePiece = `
       <span class="player-one-piece-high">
         <span class="player-one-piece-mid">
@@ -86,16 +87,44 @@ $(function () {
         </span>
       </span>`;
 
-    for (let i = 0; i < tdTbl.length; i++) {
+    // for (let i = tdTbl.length - 1; i > player.position; i--) {
+    //   if ($(".player-one-piece-high")) {
+    //     $(".player-one-piece-high"[i]).html("");
+    //     $(".player-one-piece-mid"[i]).html("");
+    //     $(".player-one-piece-low"[i]).html("");
+    //   } else {
+    //     $(".player-two-piece-high"[i]).html("");
+    //     $(".player-two-piece-mid"[i]).html("");
+    //     $(".player-two-piece-low"[i]).html("");
+    //   }
+    // }
+
+    for (let i = tdTbl.length - 1; i >= 0; i--) {
       if (playerTurn === 0) {
-        if (+tdTbl[i].getAttribute("data-index") === players[0].position) {
-          $(tdTbl[i]).html("");
+        if (+tdTbl[i].getAttribute("data-index") === player.position) {
           $(tdTbl[i]).html(playerOnePiece);
+        }
+        if (+tdTbl[i].getAttribute("data-index") === player.pre_position) {
+          $(tdTbl[i]).html("");
+        }
+        if (
+          players[0].pre_position === players[1].position &&
+          +tdTbl[i].getAttribute("data-index") === players[1].position
+        ) {
+          $(tdTbl[i]).html(playerTwoPiece);
         }
       } else {
         if (+tdTbl[i].getAttribute("data-index") === player.position) {
-          $(tdTbl[i]).html("");
           $(tdTbl[i]).html(playerTwoPiece);
+        }
+        if (+tdTbl[i].getAttribute("data-index") === player.pre_position) {
+          $(tdTbl[i]).html("");
+        }
+        if (
+          players[1].pre_position === players[0].position &&
+          +tdTbl[i].getAttribute("data-index") === players[0].position
+        ) {
+          $(tdTbl[i]).html(playerOnePiece);
         }
       }
     }
@@ -123,12 +152,14 @@ $(function () {
     $(".dice").attr("dice-content", rollDice);
     $(".dice").css("font-size", "1.25rem");
 
+    currentPlayer.pre_position = currentPlayer.position;
     currentPlayer.position += rollDice;
 
     $(".game-box").boardGame(currentPlayer);
 
     ladders.map((item) => {
       if (item.start === currentPlayer.position) {
+        currentPlayer.pre_position = item.start;
         currentPlayer.position = item.end;
 
         $(".game-box").boardGame(currentPlayer);
@@ -143,6 +174,7 @@ $(function () {
 
     snakes.map((item) => {
       if (item.start === currentPlayer.position) {
+        currentPlayer.pre_position = item.start;
         currentPlayer.position = item.end;
 
         $(".game-box").boardGame(currentPlayer);
