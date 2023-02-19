@@ -116,10 +116,10 @@ body {
 
 .board-box {
   width: 100%;
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
   margin: 0px auto;
   padding: 0px;
 }
@@ -149,6 +149,13 @@ body {
 }
 
 /* player pieces */
+
+.pieces {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
 
 .player-one-piece-high {
   width: 45px;
