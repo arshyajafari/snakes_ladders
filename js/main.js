@@ -45,7 +45,7 @@ $(function () {
   setTimeout(() => {
     $(".alert-modal").css("visibility", "hidden");
     $(".prompt-modal").css("visibility", "visible");
-  }, 5000);
+  }, 3500);
 
   // get players name method
   $("#submit").click((e) => {
@@ -70,8 +70,6 @@ $(function () {
 
   // board game method
   $.fn.boardGame = function (player) {
-    console.log(player.name, player.position);
-
     const tdTbl = $("td");
 
     const playerOnePiece = `
@@ -101,6 +99,27 @@ $(function () {
         ) {
           $(tdTbl[i]).html(playerTwoPiece);
         }
+        if (
+          players[0].position === players[1].position &&
+          +tdTbl[i].getAttribute("data-index") === players[0].position &&
+          +tdTbl[i].getAttribute("data-index") === players[1].position
+        ) {
+          $(tdTbl[i]).html(`
+          <div class="pieces">
+            <span class="player-one-piece-high" style="position: 'absolute';">
+              <span class="player-one-piece-mid">
+                <span class="player-one-piece-low"></span>
+              </span>
+            </span>
+            <span class="player-two-piece-high" style="position: 'absolute';">
+              <span class="player-two-piece-mid">
+                <span class="player-two-piece-low"></span>
+              </span>
+            </span>
+          </div>`);
+          $(".player-one-piece-high").css("position", "absolute");
+          $(".player-two-piece-high").css("position", "absolute");
+        }
       } else {
         if (+tdTbl[i].getAttribute("data-index") === player.position) {
           $(tdTbl[i]).html(playerTwoPiece);
@@ -114,6 +133,27 @@ $(function () {
         ) {
           $(tdTbl[i]).html(playerOnePiece);
         }
+        if (
+          players[0].position === players[1].position &&
+          +tdTbl[i].getAttribute("data-index") === players[0].position &&
+          +tdTbl[i].getAttribute("data-index") === players[1].position
+        ) {
+          $(tdTbl[i]).html(`
+          <div class="pieces">
+            <span class="player-one-piece-high" style="position: absolute;">
+              <span class="player-one-piece-mid">
+                <span class="player-one-piece-low"></span>
+              </span>
+            </span>
+            <span class="player-two-piece-high" style="position: absolute;">
+              <span class="player-two-piece-mid">
+                <span class="player-two-piece-low"></span>
+              </span>
+            </span>
+          </div>`);
+          $(".player-one-piece-high").css("position", "absolute");
+          $(".player-two-piece-high").css("position", "absolute");
+        }
       }
     }
   };
@@ -123,9 +163,16 @@ $(function () {
   $(".dice").click(() => {
     if (hasWon) return;
 
+    const alertModal = $(".alert-modal").css("visibility");
+    const promptModal = $(".prompt-modal").css("visibility");
+
+    if (alertModal === "visible" || promptModal === "visible") return;
+
     let currentPlayer = players[playerTurn];
 
     let rollDice = Math.floor(Math.random() * 6) + 1;
+
+    if (currentPlayer.position + rollDice > 100) return;
 
     if (players[0].name === "" || players[1].name === "") {
       $(".prompt-modal").css("visibility", "hidden");
@@ -156,7 +203,7 @@ $(function () {
         $(".alert-message").html("Oh man, you climbed the ladder.");
         setTimeout(() => {
           $(".alert-modal").css("visibility", "hidden");
-        }, 3000);
+        }, 1500);
       }
     });
 
@@ -171,17 +218,17 @@ $(function () {
         $(".alert-message").html("Wow, the snake bit you.");
         setTimeout(() => {
           $(".alert-modal").css("visibility", "hidden");
-        }, 3000);
+        }, 1500);
       }
     });
 
-    if (currentPlayer.position > 99) {
+    if (currentPlayer.position === 100) {
       $(".alert-modal").css("visibility", "visible");
       $(".alert-message").html(`${currentPlayer.name} has won.`);
       hasWon = true;
       setTimeout(() => {
         location.reload();
-      }, 3000);
+      }, 2000);
     }
 
     rollDice === 6 ? playerTurn : playerTurn++;
